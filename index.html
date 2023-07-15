@@ -11,9 +11,13 @@
 
         .button-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             margin-bottom: 20px;
+        }
+
+        button {
+            margin: 5px;
         }
 
         .message {
@@ -27,18 +31,34 @@
             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
             font-weight: bold;
         }
+
+        /* CSS for mobile screens */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            .button-container {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            button {
+                width: 120px;
+            }
+        }
     </style>
 </head>
 <body>
     <h1>Morden Warfare II(fake)</h1>
     <div class="button-container">
-        <button onclick="playGame('rock')">ADS Fire</button>
-        <button onclick="playGame('paper')">Hip Fire</button>
-        <button onclick="playGame('scissors')">Melee</button>
-        <br><br>
-        
+        <button onclick="playGame('rock')">Rock</button>
+        <button onclick="playGame('paper')">Paper</button>
+        <button onclick="playGame('scissors')">Scissors</button>
         <button id="strealst" disabled onclick="increaseSpecGruScore()">Precision Airstrike</button>
-        <button id="a3-6" disabled onclick="increaseSpecGruScoreA3()">AC-130 GunshiNuke</button>
+        <button id="a3-6" disabled onclick="increaseSpecGruScoreA3()">AC-130 Gunship</button>
+        <button id="tacNK" disabled onclick="increaseSpecGruScoreTacNK()">Tactical Nuke</button>
     </div>
     <h2 id="result"></h2>
     <h2 id="player-score">SpecGru: 0</h2>
@@ -143,7 +163,7 @@
                 document.getElementById("strealst").disabled = true; // Vô hiệu hóa nút
 
                 showMessage("SpecGru Airstrike Pilot: This is Warlock 1-1 inbound for Precision Airstrike, Danger close!");
-                showMessage("SpecGru Airstrike Pilot: Good kill, Good kill, " + randomScore + " Enemy KIA!");
+                showMessage("SpecGru Airstrike Pilot: Good kill, Good kill, " + randomScore + " Enemy KIA on that run!");
             }
         }
         
@@ -154,7 +174,7 @@
                 updateScore();
                 document.getElementById("a3-6").disabled = true; // Vô hiệu hóa nút
                 
-                showMessage("SpecGru Gunship Pilot: Jäger-1, this is Spectre, good hit, " + randomScore + " Enemy KIA!");
+                showMessage("SpecGru Gunship Pilot: Jäger-1 this is Spectre, good hit, " + randomScore + " Enemy KIA!");
             }
         }
         
