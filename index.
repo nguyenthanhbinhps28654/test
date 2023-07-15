@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Morden Warfare II</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Morden Warfare II(fake)</h1>
+    <div class="button-container">
+        <button onclick="playGame('rock')">Rock</button>
+        <button onclick="playGame('paper')">Paper</button>
+        <button onclick="playGame('scissors')">Scissors</button>
+        <br><br>
+        <button id="strealst" disabled onclick="increaseSpecGruScore()">Precision Airstrike</button>
+        <button id="a3-6" disabled onclick="increaseSpecGruScoreA3()">A3-6</button>
+        <button id="tacNK" disabled onclick="increaseSpecGruScoreTacNK()">tacNK</button>
+    </div>
+    <h2 id="result"></h2>
+    <h2 id="player-score">SpecGru: 0</h2>
+    <h2 id="computer-score">KorTac: 0</h2>
+
+    <script>
+        var playerScore = 0;
+        var computerScore = 0;
+
+        window.onload = function() {
+            alert("SA Team Leader: Team Dead Match.");
+            alert("SA Team Leader: Jäger-1, you are clear to engage all threats. Weapons free.");
+        };
+
+        function playGame(userChoice) {
+            var computerChoice = getRandomChoice();
+            var result = getResult(userChoice, computerChoice);
+            displayResult(result);
+            updateScore(result);
+            checkWinner();
+        }
+
+        function getRandomChoice() {
+            var choices = ['rock', 'paper', 'scissors'];
+            var randomIndex = Math.floor(Math.random() * 3);
+            return choices[randomIndex];
+        }
+
+        function getResult(userChoice, computerChoice) {
+            if (userChoice === computerChoice) {
+                return "Target missed, Enemy still alive!";
+            } else if (
+                (userChoice === 'rock' && computerChoice === 'scissors') ||
+                (userChoice === 'paper' && computerChoice === 'rock') ||
+                (userChoice === 'scissors' && computerChoice === 'paper')
+            ) {
+                playerScore++;
+                return "Kill confirmed, Enemy KIA!";
+            } else {
+                computerScore++;
+                return "You KIA, by enemy soldier!";
+            }
+        }
+
+        function displayResult(result) {
+            var resultElement = document.getElementById("result");
+            resultElement.textContent = result;
+        }
+
+        function updateScore(result) {
+            var playerScoreElement = document.getElementById("player-score");
+            var computerScoreElement = document.getElementById("computer-score");
+
+            playerScoreElement.textContent = "SpecGru: " + playerScore;
+            computerScoreElement.textContent = "KorTac: " + computerScore;
+
+            if (playerScore === 5) {
+                document.getElementById("strealst").disabled = false; // Khi đạt 5 điểm, kích hoạt nút "strealst"
+            }
+            
+            if (playerScore === 15) {
+                document.getElementById("a3-6").disabled = false; // Khi đạt 15 điểm, kích hoạt nút "A3-6"
+            }
+            
+            if (playerScore === 25) {
+                document.getElementById("tacNK").disabled = false; // Khi đạt 25 điểm, kích hoạt nút "tacNK"
+            }
+        }
+
+        function checkWinner() {
+            if (playerScore === 30) {
+                alert("SA Team Leader: Mission Complete, Solid work.");
+                resetGame();
+            } else if (computerScore === 30) {
+                alert("SA Team Leader: Mission Failed, Return to base for debrief.");
+                resetGame();
+            }
+        }
+
+        function resetGame() {
+            playerScore = 0;
+            computerScore = 0;
+            updateScore();
+        }
+
+        function showMessage(message) {
+            var messageElement = document.createElement("div");
+            messageElement.textContent = message;
+            messageElement.className = "message";
+            document.body.appendChild(messageElement);
+
+            setTimeout(function() {
+                document.body.removeChild(messageElement);
+            }, 2000);
+        }
+
+        function increaseSpecGruScore() {
+            if (playerScore >= 5) {
+                var randomScore = Math.floor(Math.random() * 4) + 3; // Tạo số ngẫu nhiên từ 3 đến 6
+                playerScore += randomScore;
+                updateScore();
+                document.getElementById("strealst").disabled = true; // Vô hiệu hóa nút
+
+                showMessage("SpecGru Airstrike Pilot: This is Warlock 1-1 inbound for Precision Airstrike, Danger close!");
+                showMessage("SpecGru Airstrike Pilot: Good kill, Good kill, " + randomScore + " Enemy KIA!");
+            }
+        }
+        
+        function increaseSpecGruScoreA3() {
+            if (playerScore >= 15) {
+                var randomScore = Math.floor(Math.random() * 4) + 4; // Tạo số ngẫu nhiên từ 4 đến 7
+                playerScore += randomScore;
+                updateScore();
+                document.getElementById("a3-6").disabled = true; // Vô hiệu hóa nút
+                
+                showMessage("SpecGru Operator: A3-6, this is Spectre, good hit, " + randomScore + " Enemy KIA!");
+            }
+        }
+        
+        function increaseSpecGruScoreTacNK() {
+            if (playerScore >= 25) {
+                playerScore += 5;
+                updateScore();
+                document.getElementById("tacNK").disabled = true; // Vô hiệu hóa nút
+                
+                showMessage("SpecGru Commander: tacNK, objective complete, Victory is ours!");
+                alert("SA Team Leader: Mission Complete, Solid work.");
+                resetGame();
+            }
+        }
+    </script>
+</body>
+</html>
